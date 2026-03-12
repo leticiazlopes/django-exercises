@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Meu Projeto{% endblock %}
+
+{% block content %}
+  <body>
+    <header>
+      {% if is_logged_in %}
+      <a href="{% url 'blog_home' %}"> Bem-vindo, {{ name }}!</a>
+      <a href="{% url 'blog_contact' %}"> Contato </a>
+      {% else %}  
+        <h1>Faça login para continuar</h1>
+        {% endif %} 
+{% endblock %}

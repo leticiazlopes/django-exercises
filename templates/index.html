@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - {{ name }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+      }
+      h1 {
+        margin: 0;
+      }
+      .post {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .post h2 {
+        color: #333;
+        margin-top: 0;
+      }
+      .post-meta {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      {% if is_logged_in %}
+      <a href="{% url 'blog_home' %}"> Bem-vindo, {{ name }}!</a>
+      <a href="{% url 'blog_contact' %}"> Contato </a>
+      {% else %}
+      <h1>Faça login para continuar</h1>
+      {% endif %}
+      <p>{{ now }}</p>
+
+      {% if role == 'admin' %}
+      <p style="color: #ffeb3b; font-weight: bold">
+        Você tem permissões de administrador
+      </p>
+      {% elif role == 'editor' %}
+      <p style="color: #4caf50; font-weight: bold">Você é um editor</p>
+      {% elif role == 'user' %}
+      <p style="color: #2196f3; font-weight: bold">Você é um usuário padrão</p>
+      {% else %}
+      <p style="color: #f44336; font-weight: bold">Role não identificada</p>
+      {% endif %}
+    </header>
+
+    <main>
+      <div>
+        <table>
+            <h2>Serviços Disponíveis</h2>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                        {% for servico in servicos %}
+                        <tr>
+                            <td>{{ servico.nome }}</td>
+                            <td>{{ servico.descricao }}</td>
+                            <td>R$ {{ servico.preco|floatformat:2 }}</td>   
+                        </tr>
+                        {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div class="post">
+        <h2>Primeiro Post</h2>
+        <p class="post-meta">Publicado em 01/01/2024</p>
+        <p>Conteúdo do primeiro post do blog de {{ name }}.</p>
+      </div>
+
+      <div class="post">
+        <h2>Segundo Post</h2>
+        <p class="post-meta">Publicado em 02/01/2024</p>
+        <p>Conteúdo do segundo post do blog de {{ name }}.</p>
+      </div>
+    </main>
+  </body>
+</html>
