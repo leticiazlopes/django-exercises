@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6 fw-bold text-primary">Lista de Livros</h1>
+        <a href="{% url 'edu:livro_create' %}" class="btn btn-primary shadow">Adicionar Livro</a>
+    </div>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Título</th>
+                    <th>Publicação</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Editora</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.isbn }}</td>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.publicacao }}</td>
+                    <td>R$ {{ livro.preco }}</td>
+                    <td>{{ livro.estoque }}</td>
+                    <td>{{ livro.Editora_id.nome }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'edu:livro_update' livro.pk %}" class="btn btn-warning btn-sm me-1">Editar</a>
+                        <a href="{% url 'edu:livro_delete' livro.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Nenhum livro cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
