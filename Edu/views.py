@@ -1,11 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Livro
 from .forms import LivroForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def livro_list(request):
     livros = Livro.objects.all()
-    return render(request, 'Edu/livro_list.html', {'livros': livros})
+    paginator = Paginator(livros, 10) 
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'Edu/livro_list.html', {'page_obj': page_obj})
 
 def livro_create(request):
     if request.method == 'POST':
