@@ -4,11 +4,12 @@
 
 {% block content %}
   <body>
-    <header>
-      {% if is_logged_in %}
-      <a href="{% url 'blog_home' %}"> Bem-vindo, {{ name }}!</a>
-      <a href="{% url 'blog_contact' %}"> Contato </a>
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'blog_home' %}"> Bem-vindo, {{ request.user.username }}!</a>
+      <a href="{% url 'edu:livro_list' %}"> Livros </a>
+      <a href="{% url 'edu:logout' %}"> Sair </a>
       {% else %}  
-        <h1>Faça login para continuar</h1>
-        {% endif %} 
+      <a href="{% url 'edu:signup' %}"> Cadastre-se </a>
+      <a href="{% url 'edu:signin' %}"> Entrar </a>
+      {% endif %}
 {% endblock %}
